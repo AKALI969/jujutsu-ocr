@@ -465,21 +465,27 @@
             }
         }
 
+        // Otomatis coba bunyikan musik saat user pertama kali klik apa saja di dalam website
+        document.body.addEventListener('click', function() {
+            if (bgMusic.paused && audioToggleBtn.innerText === "🎵 AUDIO: OFF") {
+                // toggleAudio();
+            }
+        }, { once: true });
+
         async function initOCR() {
             try {
                 if (typeof Tesseract === 'undefined') {
-                    systemStatusText.innerText = "Gagal memuat skrip.";
+                    systemStatusText.innerText = "Gagal memuat skrip. Coba periksa jaringan internet Anda.";
                     return;
                 }
                 
-                // Menambahkan jpn ke daftar bahasa
                 ocrWorker = await Tesseract.createWorker();
-                await ocrWorker.loadLanguage('jpn+ind+eng');
-                await ocrWorker.initialize('jpn+ind+eng');
+                await ocrWorker.loadLanguage('ind+eng');
+                await ocrWorker.initialize('ind+eng');
                 
                 isWorkerReady = true;
                 statusDot.className = "status-ready";
-                systemStatusText.innerText = "Teknik Kutukan Siap! (Mendukung Jepang/Indonesia/Inggris)";
+                systemStatusText.innerText = "Teknik Kutukan Siap! Sistem siap digunakan secara instan.";
                 
                 if (imageUrl) {
                     processBtn.removeAttribute('disabled');
@@ -529,6 +535,7 @@
             }
         });
 
+        // Fungsi Teknik Pembersih Bayangan Teks (Thresholding)
         function preprocessImage(imgElement) {
             const ctx = processingCanvas.getContext('2d');
             processingCanvas.width = imgElement.naturalWidth;
@@ -562,7 +569,7 @@
             processBtn.disabled = true;
 
             try {
-                statusText.innerText = "Mendeteksi tulisan...";
+                statusText.innerText = "Membersihkan distorsi bayangan gambar...";
                 const processedImageBase64 = preprocessImage(imagePreview);
 
                 ocrWorker.logger = (m) => {
@@ -578,7 +585,9 @@
                 statusContainer.style.display = 'none';
                 processBtn.disabled = false;
 
-                resultText.value = text.trim() || "(Tidak ada tulisan terdeteksi)";
+                let cleanText = text.replace(/\n+/g, ' ').trim();
+                
+                resultText.value = cleanText || "(Tidak ada tulisan terdeteksi di dalam gambar)";
                 resultContainer.style.display = 'block';
 
             } catch (error) {
