@@ -10,9 +10,8 @@
         :root {
             --jujutsu-red: #ff3333;
             --jujutsu-blue: #00f3ff;
-            /* Diubah dari 0.60/0.75 menjadi 0.88 agar tampil jauh lebih gelap dan solid */
             --glass-bg: rgba(10, 15, 30, 0.88); 
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(0, 243, 255, 0.2); /* Diubah jadi biru kutukan */
         }
 
         body {
@@ -30,30 +29,24 @@
             background-color: #02040a;
         }
 
-        /* Desain Background Video Modern & Ringan */
-/* Perbaikan Sistem Video Background - Dipastikan 100% Jernih */
-/* Perbaikan Sistem Video Background - Ukuran Pas & Tidak Ngezoom */
+        /* Video Background */
         .video-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
             z-index: -1;
-            
-            /* Mengubah 'cover' menjadi 'fill' atau 'contain' agar tidak dipaksa ngezoom */
-            object-fit: cover; 
-            background-size: 100% 100%;
-            
-            /* Menghilangkan transform yang bikin video bergeser dan membesar */
-            transform: none; 
-            
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover;
+            background-size: cover;
             pointer-events: none;
             filter: none !important; 
             -webkit-filter: none !important;
         }
 
-        /* Efek Filter Gelap - Diperjelas Tanpa Efek Samping Buram */
         .video-overlay {
             position: fixed;
             top: 0;
@@ -63,77 +56,83 @@
             z-index: -1;
             background: linear-gradient(180deg, rgba(2, 4, 10, 0.25) 0%, rgba(2, 4, 10, 0.5) 100%);
             pointer-events: none;
-            
-            /* MEMASTIKAN LAPISAN OVERLAY TIDAK IKUT BURAM */
             filter: none !important;
             backdrop-filter: none !important;
             -webkit-backdrop-filter: none !important;
         }
 
-        /* Pendaran Energi Terkutuk */
+        /* Pendaran Energi Terkutuk Dinamis (Bikin Lebih Ramai Atmosfernya) */
         .bg-glow {
             position: fixed;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 243, 255, 0.12) 0%, transparent 70%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.18) 0%, transparent 70%);
             top: -10%;
             right: -10%;
             z-index: -1;
             pointer-events: none;
-            animation: pulseGlow 8s infinite alternate;
+            animation: pulseGlow 6s infinite alternate;
         }
 
         .bg-glow-2 {
             position: fixed;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(255, 51, 51, 0.08) 0%, transparent 70%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(255, 51, 51, 0.12) 0%, transparent 70%);
             bottom: -15%;
             left: -10%;
             z-index: -1;
             pointer-events: none;
-            animation: pulseGlow 12s infinite alternate-reverse;
+            animation: pulseGlow 9s infinite alternate-reverse;
         }
 
         @keyframes pulseGlow {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(-20px, 20px) scale(1.1); }
+            0% { transform: translate(0, 0) scale(1); filter: hue-rotate(0deg); }
+            100% { transform: translate(-40px, 40px) scale(1.2); filter: hue-rotate(45deg); }
         }
 
-        /* Kotak Utama Glassmorphism */
-/* Kotak Utama Tanpa Efek Blur (Jernih & Transparan) */
+        /* Kotak Utama dengan Efek Animasi Border Aura Bergerak */
         .container {
             max-width: 650px;
             width: 100%;
             background: var(--glass-bg);
-            
-            /* SENSOR / HAPUS BAGIAN INI: */
-            /* backdrop-filter: blur(20px) saturate(140%); */
-            /* -webkit-backdrop-filter: blur(20px) saturate(140%); */
-            
-            /* GANTI MENJADI KODE DI BAWAH INI (Hanya menyisakan transparansi tanpa blur): */
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
-            
-            border: 1px solid var(--glass-border);
+            border: 2px solid var(--glass-border);
             border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
-                        0 0 80px rgba(0, 243, 255, 0.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 
+                        0 0 40px rgba(0, 243, 255, 0.15); /* Pendaran luar kotak */
             box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            animation: containerAura 4s ease-in-out infinite alternate;
         }
 
+        @keyframes containerAura {
+            0% { border-color: rgba(0, 243, 255, 0.2); box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 30px rgba(0, 243, 255, 0.1); }
+            100% { border-color: rgba(255, 51, 51, 0.3); box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 50px rgba(255, 51, 51, 0.2); }
+        }
+
+        /* Judul Utama dengan Animasi Kilatan Energi Terkutuk */
         h1 {
             font-family: 'Permanent Marker', cursive;
-            font-size: 2.8rem;
+            font-size: 3rem;
             color: #ffffff;
             text-align: center;
             margin: 0;
-            letter-spacing: 3px;
-            background: linear-gradient(135deg, #fff 50%, var(--jujutsu-blue));
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #fff, var(--jujutsu-blue), var(--jujutsu-red), #fff);
+            background-size: 300% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 12px rgba(0,243,255,0.2));
+            animation: textShine 5s linear infinite;
+            filter: drop-shadow(0 0 15px rgba(0,243,255,0.4));
+        }
+
+        @keyframes textShine {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
         }
 
         p.subtitle {
@@ -145,49 +144,57 @@
             margin-top: 8px;
             margin-bottom: 35px;
             font-weight: 600;
+            text-shadow: 0 0 8px rgba(255,255,255,0.2);
         }
 
         .system-status {
             text-align: center;
             font-size: 0.8rem;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 10px 16px;
+            background: rgba(0, 243, 255, 0.05);
+            padding: 12px 16px;
             border-radius: 12px;
             margin-bottom: 30px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,243,255,0.15);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             font-weight: 500;
+            box-shadow: inset 0 0 10px rgba(0,243,255,0.05);
         }
 
-        .status-ready { color: #00ffaa; text-shadow: 0 0 10px rgba(0,255,170,0.4); }
+        .status-ready { color: #00ffaa; text-shadow: 0 0 10px rgba(0,255,170,0.6); }
         .status-loading { color: #ffaa00; }
 
+        /* Desain Tempat Upload yang Lebih Keren */
         .upload-area {
-            border: 2px dashed rgba(255, 255, 255, 0.15);
-            background: rgba(0, 0, 0, 0.25);
+            border: 2px dashed rgba(0, 243, 255, 0.3);
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 16px;
             padding: 50px 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
         }
 
         .upload-area:hover {
-            border-color: var(--jujutsu-blue);
-            background: rgba(0, 243, 255, 0.03);
-            transform: scale(1.01);
+            border-color: var(--jujutsu-red);
+            background: rgba(255, 51, 51, 0.03);
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.1), inset 0 0 10px rgba(255, 51, 51, 0.05);
         }
 
         .upload-area p {
             margin: 0;
             font-size: 1rem;
             color: #9ca3af;
+            transition: color 0.3s;
         }
 
-        .upload-area b { color: #fff; }
+        .upload-area:hover p { color: #fff; }
+        .upload-area b { color: var(--jujutsu-blue); }
+        .upload-area:hover b { color: var(--jujutsu-red); }
         #file-input { display: none; }
 
         #preview-container {
@@ -200,8 +207,8 @@
             max-width: 100%;
             max-height: 280px;
             border-radius: 14px;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+            border: 2px solid rgba(0, 243, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
         }
 
         .btn-container {
@@ -210,31 +217,38 @@
             margin-top: 30px;
         }
 
+        /* Tombol Bertarung Epik */
         button {
-            background: #ffffff;
+            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
             color: #060814;
             border: none;
-            padding: 14px 40px;
+            padding: 15px 45px;
             font-size: 1rem;
-            font-weight: 700;
+            font-weight: 800;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         button:hover:not(:disabled) {
-            background: var(--jujutsu-blue);
+            background: linear-gradient(135deg, var(--jujutsu-blue) 0%, #00a2ff 100%);
             color: #000;
-            box-shadow: 0 0 25px rgba(0, 243, 255, 0.4);
-            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.6), 0 5px 15px rgba(0,0,0,0.4);
+            transform: translateY(-3px);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(-1px);
         }
 
         button:disabled {
-            background: rgba(255,255,255,0.1);
-            color: #6b7280;
+            background: rgba(255,255,255,0.08);
+            color: #4b5563;
             cursor: not-allowed;
+            box-shadow: none;
         }
 
         .status-container {
@@ -245,18 +259,19 @@
 
         .progress-bar {
             width: 100%;
-            height: 6px;
-            background-color: rgba(255,255,255,0.05);
+            height: 8px;
+            background-color: rgba(0,0,0,0.5);
             border-radius: 10px;
             overflow: hidden;
             margin-top: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .progress-fill {
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, var(--jujutsu-blue), var(--jujutsu-red));
-            box-shadow: 0 0 15px var(--jujutsu-blue);
+            box-shadow: 0 0 20px var(--jujutsu-blue);
             transition: width 0.3s ease;
         }
 
@@ -273,24 +288,27 @@
         }
 
         .copy-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 6px 16px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            color: var(--jujutsu-blue);
+            padding: 8px 18px;
             font-size: 0.8rem;
+            font-weight: 600;
             border-radius: 8px;
+            letter-spacing: 1px;
         }
 
         .copy-btn:hover {
-            background: #fff;
+            background: var(--jujutsu-blue);
             color: #000;
+            box-shadow: 0 0 15px rgba(0,243,255,0.4);
         }
 
         textarea {
             width: 100%;
             height: 160px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--glass-border);
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 243, 255, 0.15);
             border-radius: 12px;
             padding: 18px;
             color: #fff;
@@ -299,19 +317,22 @@
             line-height: 1.6;
             resize: vertical;
             box-sizing: border-box;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
         }
 
         textarea:focus {
             outline: none;
-            border-color: rgba(0, 243, 255, 0.3);
+            border-color: var(--jujutsu-red);
+            box-shadow: 0 0 15px rgba(255,51,51,0.1), inset 0 0 15px rgba(0,0,0,0.5);
         }
     </style>
 </head>
 <body>
 
-    <video class="video-bg" autoplay loop muted playsinline>
+    <video class="video-bg" autoplay loop muted playsinline preload="auto">
         <source src="bg.mp4" type="video/mp4">
     </video>
+    <div class="video-overlay"></div>
     
     <div class="bg-glow"></div>
     <div class="bg-glow-2"></div>
