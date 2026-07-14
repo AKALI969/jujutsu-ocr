@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jujutsu Kaisen OCR - Pemindai Kutukan Teks</title>
-    <!-- Tesseract.js v4 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
     <style>
         :root {
             --jujutsu-red: #ff3333;
             --jujutsu-blue: #00f3ff;
-            --glass-bg: rgba(10, 15, 30, 0.88); 
-            --glass-border: rgba(0, 243, 255, 0.2); 
+            --glass-bg: rgba(7, 10, 20, 0.9); 
+            --glass-border: rgba(255, 51, 51, 0.25); 
         }
 
         body {
@@ -40,8 +39,8 @@
             transform: translate(-50%, -50%);
             object-fit: fill; 
             pointer-events: none;
-            filter: none !important; 
-            -webkit-filter: none !important;
+            filter: grayscale(20%) contrast(110%); 
+            -webkit-filter: grayscale(20%) contrast(110%);
         }
 
         .video-overlay {
@@ -51,11 +50,8 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: linear-gradient(180deg, rgba(2, 4, 10, 0.25) 0%, rgba(2, 4, 10, 0.5) 100%);
+            background: linear-gradient(180deg, rgba(2, 4, 10, 0.4) 0%, rgba(2, 4, 10, 0.7) 100%);
             pointer-events: none;
-            filter: none !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
         }
 
         /* Tombol Kontrol Audio Musik */
@@ -65,8 +61,8 @@
             right: 20px;
             z-index: 100;
             background: rgba(10, 15, 30, 0.8);
-            border: 1px solid var(--jujutsu-blue);
-            color: var(--jujutsu-blue);
+            border: 1px solid var(--jujutsu-red);
+            color: var(--jujutsu-red);
             padding: 10px 15px;
             border-radius: 30px;
             cursor: pointer;
@@ -76,23 +72,23 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.3);
             transition: all 0.3s ease;
         }
 
         .audio-control:hover {
-            background: var(--jujutsu-blue);
+            background: var(--jujutsu-red);
             color: #000;
-            box-shadow: 0 0 25px rgba(0, 243, 255, 0.6);
+            box-shadow: 0 0 25px rgba(255, 51, 51, 0.7);
             transform: scale(1.05);
         }
 
-        /* Pendaran Energi Terkutuk Dinamis */
+        /* Pendaran Energi Terkutuk Dinamis (Horor Gelap) */
         .bg-glow {
             position: fixed;
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(0, 243, 255, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 51, 51, 0.12) 0%, transparent 70%);
             top: -10%;
             right: -10%;
             z-index: -1;
@@ -103,31 +99,29 @@
             position: fixed;
             width: 700px;
             height: 700px;
-            background: radial-gradient(circle, rgba(255, 51, 51, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.08) 0%, transparent 70%);
             bottom: -15%;
             left: -10%;
             z-index: -1;
             pointer-events: none;
         }
 
-        /* Kotak Utama Transparan Tanpa Blur */
+        /* Kotak Utama Transparan Aura Horor */
         .container {
             max-width: 650px;
             width: 100%;
             background: var(--glass-bg);
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
             border: 2px solid var(--glass-border);
             border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 
-                        0 0 40px rgba(0, 243, 255, 0.15); 
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.95), 
+                        0 0 40px rgba(255, 51, 51, 0.15); 
             box-sizing: border-box;
             position: relative;
             overflow: hidden;
         }
 
-        /* Judul Gaya Tebal Tegas Khas Anime */
+        /* Judul Bergaya Horor & Berkelip Gaib */
         h1 {
             font-family: 'Impact', 'Arial Black', sans-serif;
             font-size: 3.5rem;
@@ -136,13 +130,13 @@
             margin: 0;
             letter-spacing: 3px;
             text-transform: uppercase;
-            background: linear-gradient(135deg, #fff 40%, var(--jujutsu-blue));
+            background: linear-gradient(135deg, #fff 30%, var(--jujutsu-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(0,243,255,0.4));
+            animation: cursedPulseBlue 4s infinite alternate, ghostGlitch 6s infinite;
         }
 
-        /* Tulisan Kanji */
+        /* Tulisan Kanji: Berkelip Merah Mistis */
         .kanji-sub {
             display: block;
             text-align: center;
@@ -155,7 +149,49 @@
             margin-top: 5px;
             margin-bottom: 15px;
             font-family: 'Georgia', 'Times New Roman', serif;
-            text-shadow: 0 0 15px rgba(255, 51, 51, 0.8);
+            animation: cursedPulseRed 3s infinite alternate;
+        }
+
+        /* ANIMASI BARU NUANSA HOROR */
+        @keyframes cursedPulseBlue {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(0,243,255,0.2));
+                opacity: 0.85;
+            }
+            50% {
+                filter: drop-shadow(0 0 25px rgba(0,243,255,0.7));
+                opacity: 1;
+            }
+            100% {
+                filter: drop-shadow(0 0 10px rgba(0,243,255,0.3));
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes cursedPulseRed {
+            0% {
+                text-shadow: 0 0 4px rgba(255, 51, 51, 0.3);
+                opacity: 0.7;
+            }
+            50% {
+                text-shadow: 0 0 25px rgba(255, 51, 51, 0.9);
+                opacity: 1;
+            }
+            100% {
+                text-shadow: 0 0 8px rgba(255, 51, 51, 0.4);
+                opacity: 0.8;
+            }
+        }
+
+        /* Efek Kerusakan Distorsi Gaib Sesekali */
+        @keyframes ghostGlitch {
+            0%, 92%, 100% { transform: skew(0deg); filter: hue-rotate(0deg); }
+            93% { transform: skew(3deg); filter: hue-rotate(90deg); }
+            94% { transform: skew(-2deg); }
+            95% { transform: skew(0deg); }
+            96% { transform: skew(-4deg); filter: hue-rotate(-90deg); }
+            97% { transform: skew(2deg); }
+            98% { transform: skew(0deg); }
         }
 
         p.subtitle {
@@ -167,17 +203,17 @@
             margin-top: 8px;
             margin-bottom: 35px;
             font-weight: 600;
-            text-shadow: 0 0 8px rgba(255,255,255,0.2);
+            text-shadow: 0 0 8px rgba(0,0,0,0.5);
         }
 
         .system-status {
             text-align: center;
             font-size: 0.8rem;
-            background: rgba(0, 243, 255, 0.05);
+            background: rgba(255, 51, 51, 0.03);
             padding: 12px 16px;
             border-radius: 12px;
             margin-bottom: 30px;
-            border: 1px solid rgba(0,243,255,0.15);
+            border: 1px solid rgba(255, 51, 51, 0.15);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -186,22 +222,22 @@
         }
 
         .status-ready { color: #00ffaa; text-shadow: 0 0 10px rgba(0,255,170,0.6); }
-        .status-loading { color: #ffaa00; }
+        .status-loading { color: #ff3333; text-shadow: 0 0 8px rgba(255,51,51,0.5); }
 
         .upload-area {
-            border: 2px dashed rgba(0, 243, 255, 0.3);
-            background: rgba(0, 0, 0, 0.4);
+            border: 2px dashed rgba(255, 51, 51, 0.25);
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 16px;
             padding: 50px 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
         }
 
         .upload-area:hover {
-            border-color: var(--jujutsu-red);
-            background: rgba(255, 51, 51, 0.03);
+            border-color: var(--jujutsu-blue);
+            background: rgba(0, 243, 255, 0.03);
             transform: scale(1.02);
         }
 
@@ -211,7 +247,7 @@
             color: #9ca3af;
         }
 
-        .upload-area b { color: var(--jujutsu-blue); }
+        .upload-area b { color: var(--jujutsu-red); }
         #file-input { display: none; }
 
         #preview-container {
@@ -224,8 +260,8 @@
             max-width: 100%;
             max-height: 280px;
             border-radius: 14px;
-            border: 2px solid rgba(0, 243, 255, 0.2);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            border: 2px solid rgba(255, 51, 51, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.9);
         }
 
         .btn-container {
@@ -246,18 +282,18 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 2px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         button:hover:not(:disabled) {
-            background: linear-gradient(135deg, var(--jujutsu-blue) 0%, #00a2ff 100%);
-            color: #000;
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.6);
+            background: linear-gradient(135deg, var(--jujutsu-red) 0%, #b30000 100%);
+            color: #fff;
+            box-shadow: 0 0 30px rgba(255, 51, 51, 0.6);
             transform: translateY(-3px);
         }
 
         button:disabled {
-            background: rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.05);
             color: #4b5563;
             cursor: not-allowed;
         }
@@ -271,7 +307,7 @@
         .progress-bar {
             width: 100%;
             height: 8px;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.7);
             border-radius: 10px;
             overflow: hidden;
             margin-top: 12px;
@@ -280,8 +316,8 @@
         .progress-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--jujutsu-blue), var(--jujutsu-red));
-            box-shadow: 0 0 20px var(--jujutsu-blue);
+            background: linear-gradient(90deg, var(--jujutsu-red), var(--jujutsu-blue));
+            box-shadow: 0 0 20px var(--jujutsu-red);
             transition: width 0.3s ease;
         }
 
@@ -298,9 +334,9 @@
         }
 
         .copy-btn {
-            background: rgba(0, 243, 255, 0.1);
-            border: 1px solid rgba(0, 243, 255, 0.3);
-            color: var(--jujutsu-blue);
+            background: rgba(255, 51, 51, 0.1);
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            color: var(--jujutsu-red);
             padding: 8px 18px;
             font-size: 0.8rem;
             font-weight: 600;
@@ -308,15 +344,16 @@
         }
 
         .copy-btn:hover {
-            background: var(--jujutsu-blue);
-            color: #000;
+            background: var(--jujutsu-red);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255,51,51,0.4);
         }
 
         textarea {
             width: 100%;
             height: 160px;
-            background-color: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(0, 243, 255, 0.15);
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 51, 51, 0.15);
             border-radius: 12px;
             padding: 18px;
             color: #fff;
@@ -329,12 +366,10 @@
 </head>
 <body>
 
-    <!-- Tombol Kontrol Musik -->
     <button class="audio-control" id="audio-toggle" onclick="toggleAudio()">
         🎵 AUDIO: OFF
     </button>
 
-    <!-- Tag Audio Elemen Musik -->
     <audio id="bg-music" loop>
         <source src="bg.mp3" type="audio/mp3">
     </audio>
@@ -379,14 +414,13 @@
 
         <div class="result-container" id="result-container">
             <div class="result-header">
-                <h3 style="color: var(--jujutsu-blue); margin:0; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Hasil Kalimat:</h3>
+                <h3 style="color: var(--jujutsu-red); margin:0; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Hasil Kalimat:</h3>
                 <button class="copy-btn" onclick="copyText()">Salin Teks</button>
             </div>
             <textarea id="result-text" readonly></textarea>
         </div>
     </div>
 
-    <!-- Canvas Tersembunyi Untuk Pengolahan Gambar Kontras Tinggi -->
     <canvas id="processing-canvas" style="display:none;"></canvas>
 
     <script>
@@ -425,16 +459,15 @@
             } else {
                 bgMusic.pause();
                 audioToggleBtn.innerText = "🎵 AUDIO: OFF";
-                audioToggleBtn.style.borderColor = "var(--jujutsu-blue)";
-                audioToggleBtn.style.color = "var(--jujutsu-blue)";
-                audioToggleBtn.style.boxShadow = "0 0 15px rgba(0, 243, 255, 0.3)";
+                audioToggleBtn.style.borderColor = "var(--jujutsu-red)";
+                audioToggleBtn.style.color = "var(--jujutsu-red)";
+                audioToggleBtn.style.boxShadow = "0 0 15px rgba(255, 51, 51, 0.3)";
             }
         }
 
         // Otomatis coba bunyikan musik saat user pertama kali klik apa saja di dalam website
         document.body.addEventListener('click', function() {
             if (bgMusic.paused && audioToggleBtn.innerText === "🎵 AUDIO: OFF") {
-                // Opsional: Jika ingin otomatis menyala pada klik pertama, hapus tanda komentar baris di bawah ini:
                 // toggleAudio();
             }
         }, { once: true });
