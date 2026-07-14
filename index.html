@@ -10,7 +10,7 @@
         :root {
             --jujutsu-red: #ff3333;
             --jujutsu-blue: #00f3ff;
-            --glass-bg: rgba(15, 22, 36, 0.7);
+            --glass-bg: rgba(10, 15, 30, 0.75);
             --glass-border: rgba(255, 255, 255, 0.08);
         }
 
@@ -26,10 +26,10 @@
             color: #f3f4f6;
             overflow-x: hidden;
             position: relative;
-            background-color: #060814;
+            background-color: #02040a;
         }
 
-        /* Background Modern Video/Gambar Anime Atmosferik */
+        /* PERBAIKAN: Menggunakan gambar latar belakang baru yang stabil & atmosferik */
         .bg-overlay {
             position: fixed;
             top: 0;
@@ -38,21 +38,20 @@
             height: 100%;
             z-index: -1;
             background-image: 
-                linear-gradient(180deg, rgba(6, 8, 20, 0.8) 0%, rgba(6, 8, 20, 0.95) 100%),
-                url('https://images.alphacoders.com/134/1341170.png'); /* Gambar Domain JJK Keren */
+                linear-gradient(180deg, rgba(2, 4, 10, 0.75) 0%, rgba(2, 4, 10, 0.95) 100%),
+                url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920'); /* Abstrak Energi Terkutuk Gelap */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            filter: blur(3px);
-            transform: scale(1.05);
+            filter: blur(2px);
         }
 
-        /* Efek Partikel Energi Terkutuk Menyala */
+        /* Pendaran Energi Terkutuk */
         .bg-glow {
             position: fixed;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(0, 243, 255, 0.15) 0%, transparent 70%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.12) 0%, transparent 70%);
             top: -10%;
             right: -10%;
             z-index: -1;
@@ -62,9 +61,9 @@
 
         .bg-glow-2 {
             position: fixed;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 51, 51, 0.1) 0%, transparent 70%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 51, 51, 0.08) 0%, transparent 70%);
             bottom: -15%;
             left: -10%;
             z-index: -1;
@@ -74,7 +73,7 @@
 
         @keyframes pulseGlow {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(-30px, 30px) scale(1.2); }
+            100% { transform: translate(-20px, 20px) scale(1.1); }
         }
 
         /* Kotak Utama Glassmorphism */
@@ -82,15 +81,14 @@
             max-width: 650px;
             width: 100%;
             background: var(--glass-bg);
-            backdrop-filter: blur(16px) saturate(120%);
-            -webkit-backdrop-filter: blur(16px) saturate(120%);
+            backdrop-filter: blur(20px) saturate(140%);
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6), 
-                        0 0 80px rgba(0, 243, 255, 0.03);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
+                        0 0 80px rgba(0, 243, 255, 0.02);
             box-sizing: border-box;
-            transition: all 0.4s ease;
         }
 
         h1 {
@@ -100,7 +98,7 @@
             text-align: center;
             margin: 0;
             letter-spacing: 3px;
-            background: linear-gradient(135deg, #fff 40%, var(--jujutsu-blue));
+            background: linear-gradient(135deg, #fff 50%, var(--jujutsu-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 4px 12px rgba(0,243,255,0.2));
@@ -121,7 +119,7 @@
             text-align: center;
             font-size: 0.8rem;
             background: rgba(255, 255, 255, 0.04);
-            padding: 8px 16px;
+            padding: 10px 16px;
             border-radius: 12px;
             margin-bottom: 30px;
             border: 1px solid rgba(255,255,255,0.05);
@@ -135,15 +133,14 @@
         .status-ready { color: #00ffaa; text-shadow: 0 0 10px rgba(0,255,170,0.4); }
         .status-loading { color: #ffaa00; }
 
-        /* Area Drop/Paste Gambar Modern */
         .upload-area {
             border: 2px dashed rgba(255, 255, 255, 0.15);
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.25);
             border-radius: 16px;
             padding: 50px 20px;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.2s, border-color 0.3s, background-color 0.3s;
+            transition: all 0.3s ease;
         }
 
         .upload-area:hover {
@@ -158,10 +155,7 @@
             color: #9ca3af;
         }
 
-        .upload-area b {
-            color: #fff;
-        }
-
+        .upload-area b { color: #fff; }
         #file-input { display: none; }
 
         #preview-container {
@@ -184,7 +178,6 @@
             margin-top: 30px;
         }
 
-        /* Tombol Cyberpunk JJK */
         button {
             background: #ffffff;
             color: #060814;
@@ -197,7 +190,6 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 0 30px rgba(255,255,255,0.1);
         }
 
         button:hover:not(:disabled) {
@@ -211,10 +203,8 @@
             background: rgba(255,255,255,0.1);
             color: #6b7280;
             cursor: not-allowed;
-            box-shadow: none;
         }
 
-        /* Loading Bar Tipis Elegan */
         .status-container {
             margin-top: 25px;
             display: none;
@@ -238,7 +228,6 @@
             transition: width 0.3s ease;
         }
 
-        /* Area Hasil Akhir */
         .result-container {
             margin-top: 35px;
             display: none;
@@ -252,26 +241,23 @@
         }
 
         .copy-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
             padding: 6px 16px;
             font-size: 0.8rem;
             border-radius: 8px;
-            box-shadow: none;
         }
 
         .copy-btn:hover {
             background: #fff;
             color: #000;
-            box-shadow: none;
-            transform: none;
         }
 
         textarea {
             width: 100%;
             height: 160px;
-            background-color: rgba(0, 0, 0, 0.25);
+            background-color: rgba(0, 0, 0, 0.3);
             border: 1px solid var(--glass-border);
             border-radius: 12px;
             padding: 18px;
@@ -350,7 +336,6 @@
         let ocrWorker = null;
         let isWorkerReady = false;
 
-        // Inisialisasi Mesin Otomatis saat Halaman Terbuka
         async function initOCR() {
             try {
                 if (typeof Tesseract === 'undefined') {
@@ -378,7 +363,6 @@
 
         window.onload = initOCR;
 
-        // Tangkap Gambar dari Upload maupun Paste
         function handleFile(file) {
             if (file && file.type.startsWith('image/')) {
                 if(imageUrl) URL.revokeObjectURL(imageUrl);
@@ -415,7 +399,6 @@
             }
         });
 
-        // Proses Pemindaian OCR Super Cepat
         async function processImage() {
             if (!imageUrl || !isWorkerReady) return;
 
