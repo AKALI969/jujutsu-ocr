@@ -30,6 +30,7 @@
         }
 
         /* PERBAIKAN: Menggunakan gambar latar belakang baru yang stabil & atmosferik */
+/* Cari bagian .bg-overlay di dalam tag <style> Anda dan ganti menjadi seperti ini */
         .bg-overlay {
             position: fixed;
             top: 0;
@@ -39,7 +40,7 @@
             z-index: -1;
             background-image: 
                 linear-gradient(180deg, rgba(2, 4, 10, 0.75) 0%, rgba(2, 4, 10, 0.95) 100%),
-                url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920'); /* Abstrak Energi Terkutuk Gelap */
+                url('bg.png'); /* ◄ JIKA GAMBAR ANDA .PNG. Ganti jadi 'bg.jpg' jika formatnya JPG */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
