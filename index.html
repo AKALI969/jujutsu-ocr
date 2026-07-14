@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jujutsu Kaisen OCR - Pemindai Kutukan Teks</title>
+    <!-- Tesseract.js v4 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
     <style>
         :root {
@@ -28,7 +29,7 @@
             background-color: #02040a;
         }
 
-        /* Latar Belakang Video - Mengunci Proporsi Agar Tidak Otomatis Ngezoom */
+        /* Latar Belakang Video */
         .video-bg {
             position: fixed;
             top: 50%;
@@ -112,7 +113,7 @@
             filter: drop-shadow(0 0 15px rgba(0,243,255,0.4));
         }
 
-        /* Tulisan Kanji: Center, Besar, Melebar Sejajar Judul */
+        /* Tulisan Kanji */
         .kanji-sub {
             display: block;
             text-align: center;
@@ -346,6 +347,9 @@
         </div>
     </div>
 
+    <!-- Canvas Tersembunyi Untuk Pengolahan Gambar Kontras Tinggi -->
+    <canvas id="processing-canvas" style="display:none;"></canvas>
+
     <script>
         const fileInput = document.getElementById('file-input');
         const previewContainer = document.getElementById('preview-container');
@@ -358,6 +362,7 @@
         const resultText = document.getElementById('result-text');
         const systemStatusText = document.getElementById('system-status-text');
         const statusDot = document.getElementById('status-dot');
+        const processingCanvas = document.getElementById('processing-canvas');
 
         let imageUrl = null;
         let ocrWorker = null;
@@ -426,6 +431,36 @@
             }
         });
 
+        // Fungsi Teknik Pembersih Bayangan Teks (Thresholding)
+        function preprocessImage(imgElement) {
+            const ctx = processingCanvas.getContext('2d');
+            processingCanvas.width = imgElement.naturalWidth;
+            processingCanvas.height = imgElement.naturalHeight;
+            
+            ctx.drawImage(imgElement, 0, 0);
+            
+            const imageData = ctx.getImageData(0, 0, processingCanvas.width, processingCanvas.height);
+            const data = imageData.data;
+            
+            // Ambang batas kecerahan (0-255). Warna abu-abu bayangan di atas angka ini akan dibabat jadi putih murni.
+            const threshold = 120; 
+
+            for (let i = 0; i < data.length; i += 4) {
+                // Menghitung Grayscale (Ruminansia)
+                const brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
+                
+                // Jika warna lebih terang dari batas threshold, paksa jadi putih murni (menghilangkan abu-abu)
+                const color = brightness > threshold ? 255 : 0;
+                
+                data[i] = color;     // Red
+                data[i + 1] = color; // Green
+                data[i + 2] = color; // Blue
+            }
+            
+            ctx.putImageData(imageData, 0, 0);
+            return processingCanvas.toDataURL();
+        }
+
         async function processImage() {
             if (!imageUrl || !isWorkerReady) return;
 
@@ -434,6 +469,11 @@
             processBtn.disabled = true;
 
             try {
+                statusText.innerText = "Membersihkan distorsi bayangan gambar...";
+                
+                // Jalankan fungsi pembersihan gambar lewat Canvas
+                const processedImageBase64 = preprocessImage(imagePreview);
+
                 ocrWorker.logger = (m) => {
                     if (m.status === 'recognizing text') {
                         const progress = Math.round(m.progress * 100);
@@ -442,12 +482,13 @@
                     }
                 };
 
-                const { data: { text } } = await ocrWorker.recognize(imageUrl);
+                // Kirim gambar murni bebas bayangan ke Tesseract
+                const { data: { text } } = await ocrWorker.recognize(processedImageBase64);
                 
                 statusContainer.style.display = 'none';
                 processBtn.disabled = false;
 
-                /* PERBAIKAN DI SINI: Menghapus enter/baris baru dan menggantinya dengan spasi tunggal */
+                // Menghapus enter/baris baru dan menggantinya dengan spasi tunggal
                 let cleanText = text.replace(/\n+/g, ' ').trim();
                 
                 resultText.value = cleanText || "(Tidak ada tulisan terdeteksi di dalam gambar)";
