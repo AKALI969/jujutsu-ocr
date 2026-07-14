@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jujutsu Kaisen OCR - Pemindai Kutukan Teks</title>
-    <!-- Tesseract.js v4 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
     <style>
         :root {
@@ -447,7 +446,11 @@
                 
                 statusContainer.style.display = 'none';
                 processBtn.disabled = false;
-                resultText.value = text.trim() || "(Tidak ada tulisan terdeteksi di dalam gambar)";
+
+                /* PERBAIKAN DI SINI: Menghapus enter/baris baru dan menggantinya dengan spasi tunggal */
+                let cleanText = text.replace(/\n+/g, ' ').trim();
+                
+                resultText.value = cleanText || "(Tidak ada tulisan terdeteksi di dalam gambar)";
                 resultContainer.style.display = 'block';
 
             } catch (error) {
