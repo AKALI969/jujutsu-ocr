@@ -5,176 +5,242 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jujutsu Kaisen OCR - Pemindai Kutukan Teks</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0c10;
-            --panel-bg: #1f2833;
-            --jujutsu-red: #8b0000;
-            --jujutsu-blue: #00cfd5;
-            --text-main: #c5c6c7;
-            --text-light: #ffffff;
+            --jujutsu-red: #ff3333;
+            --jujutsu-blue: #00f3ff;
+            --glass-bg: rgba(15, 22, 36, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
-            background-image: radial-gradient(circle at 20% 30%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
-                              radial-gradient(circle at 80% 70%, rgba(0, 207, 213, 0.1) 0%, transparent 50%);
-        }
-
-        .container {
-            max-width: 700px;
-            width: 100%;
-            background: var(--panel-bg);
-            border: 3px solid #111;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 8px 0px #000, 0 0 20px rgba(0, 207, 213, 0.2);
+            color: #f3f4f6;
+            overflow-x: hidden;
             position: relative;
-            box-sizing: border-box;
+            background-color: #060814;
         }
 
-        .container::before {
-            content: '';
-            position: absolute;
+        /* Background Modern Video/Gambar Anime Atmosferik */
+        .bg-overlay {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, var(--jujutsu-red), var(--jujutsu-blue));
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(180deg, rgba(6, 8, 20, 0.8) 0%, rgba(6, 8, 20, 0.95) 100%),
+                url('https://images.alphacoders.com/134/1341170.png'); /* Gambar Domain JJK Keren */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: blur(3px);
+            transform: scale(1.05);
+        }
+
+        /* Efek Partikel Energi Terkutuk Menyala */
+        .bg-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.15) 0%, transparent 70%);
+            top: -10%;
+            right: -10%;
+            z-index: -1;
+            pointer-events: none;
+            animation: pulseGlow 8s infinite alternate;
+        }
+
+        .bg-glow-2 {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 51, 51, 0.1) 0%, transparent 70%);
+            bottom: -15%;
+            left: -10%;
+            z-index: -1;
+            pointer-events: none;
+            animation: pulseGlow 12s infinite alternate-reverse;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-30px, 30px) scale(1.2); }
+        }
+
+        /* Kotak Utama Glassmorphism */
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px) saturate(120%);
+            -webkit-backdrop-filter: blur(16px) saturate(120%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6), 
+                        0 0 80px rgba(0, 243, 255, 0.03);
+            box-sizing: border-box;
+            transition: all 0.4s ease;
         }
 
         h1 {
             font-family: 'Permanent Marker', cursive;
-            font-size: 2.5rem;
-            color: var(--text-light);
+            font-size: 2.8rem;
+            color: #ffffff;
             text-align: center;
-            margin-top: 0;
-            letter-spacing: 2px;
-            text-shadow: 3px 3px 0px var(--jujutsu-red);
+            margin: 0;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #fff 40%, var(--jujutsu-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 12px rgba(0,243,255,0.2));
         }
 
         p.subtitle {
             text-align: center;
-            font-size: 0.9rem;
-            color: var(--jujutsu-blue);
+            font-size: 0.8rem;
+            color: #9ca3af;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
-            font-weight: 700;
+            letter-spacing: 5px;
+            margin-top: 8px;
+            margin-bottom: 35px;
+            font-weight: 600;
         }
 
-        /* Status Sistem di Bagian Atas */
         .system-status {
             text-align: center;
             font-size: 0.8rem;
-            background: rgba(0,0,0,0.4);
-            padding: 6px 12px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #333;
-            display: inline-block;
-            align-self: center;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 8px 16px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 500;
         }
 
-        .status-ready { color: #00ff88; }
+        .status-ready { color: #00ffaa; text-shadow: 0 0 10px rgba(0,255,170,0.4); }
         .status-loading { color: #ffaa00; }
 
+        /* Area Drop/Paste Gambar Modern */
         .upload-area {
-            border: 2px dashed rgba(0, 207, 213, 0.3);
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            padding: 40px 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 50px 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.2s, border-color 0.3s, background-color 0.3s;
         }
 
         .upload-area:hover {
             border-color: var(--jujutsu-blue);
-            background: rgba(0, 207, 213, 0.05);
+            background: rgba(0, 243, 255, 0.03);
+            transform: scale(1.01);
         }
 
-        #file-input {
-            display: none;
+        .upload-area p {
+            margin: 0;
+            font-size: 1rem;
+            color: #9ca3af;
         }
+
+        .upload-area b {
+            color: #fff;
+        }
+
+        #file-input { display: none; }
 
         #preview-container {
-            margin-top: 25px;
+            margin-top: 30px;
             display: none;
             text-align: center;
         }
 
         #image-preview {
             max-width: 100%;
-            max-height: 250px;
-            border-radius: 6px;
-            border: 2px solid var(--jujutsu-red);
+            max-height: 280px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
         }
 
         .btn-container {
             display: flex;
             justify-content: center;
-            margin-top: 25px;
+            margin-top: 30px;
         }
 
+        /* Tombol Cyberpunk JJK */
         button {
-            background: linear-gradient(135deg, #111, var(--jujutsu-red));
-            color: white;
-            border: 2px solid #000;
-            padding: 12px 35px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 6px;
+            background: #ffffff;
+            color: #060814;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 12px;
             cursor: pointer;
-            box-shadow: 3px 3px 0px #000;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 30px rgba(255,255,255,0.1);
         }
 
         button:hover:not(:disabled) {
-            transform: translate(-2px, -2px);
-            box-shadow: 5px 5px 0px #000;
+            background: var(--jujutsu-blue);
+            color: #000;
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.4);
+            transform: translateY(-2px);
         }
 
         button:disabled {
-            background: #555;
+            background: rgba(255,255,255,0.1);
+            color: #6b7280;
             cursor: not-allowed;
             box-shadow: none;
         }
 
+        /* Loading Bar Tipis Elegan */
         .status-container {
-            margin-top: 20px;
+            margin-top: 25px;
             display: none;
             text-align: center;
         }
 
         .progress-bar {
             width: 100%;
-            height: 8px;
-            background-color: #111;
-            border-radius: 4px;
+            height: 6px;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 10px;
             overflow: hidden;
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         .progress-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--jujutsu-blue), #ffffff);
-            box-shadow: 0 0 10px var(--jujutsu-blue);
+            background: linear-gradient(90deg, var(--jujutsu-blue), var(--jujutsu-red));
+            box-shadow: 0 0 15px var(--jujutsu-blue);
+            transition: width 0.3s ease;
         }
 
+        /* Area Hasil Akhir */
         .result-container {
-            margin-top: 30px;
+            margin-top: 35px;
             display: none;
         }
 
@@ -182,35 +248,54 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .copy-btn {
-            background: #111;
-            border: 1px solid var(--jujutsu-blue);
-            color: var(--jujutsu-blue);
-            padding: 4px 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 6px 16px;
             font-size: 0.8rem;
+            border-radius: 8px;
             box-shadow: none;
+        }
+
+        .copy-btn:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: none;
+            transform: none;
         }
 
         textarea {
             width: 100%;
-            height: 150px;
-            background-color: rgba(0, 0, 0, 0.4);
-            border: 2px solid #333;
-            border-radius: 6px;
-            padding: 15px;
-            color: var(--text-light);
-            font-size: 1rem;
+            height: 160px;
+            background-color: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 18px;
+            color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.6;
             resize: vertical;
             box-sizing: border-box;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: rgba(0, 243, 255, 0.3);
         }
     </style>
 </head>
 <body>
 
-    <div class="container" style="display: flex; flex-direction: column;">
+    <div class="bg-overlay"></div>
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
+    <div class="container">
         <h1>JUJUTSU OCR</h1>
         <p class="subtitle">Ekstraksi Teks Energi Terkutuk</p>
 
@@ -233,7 +318,7 @@
         </div>
 
         <div class="status-container" id="status-container">
-            <span id="status-text">Menguraikan tulisan...</span>
+            <span id="status-text" style="font-size: 0.9rem; color: #9ca3af;">Menguraikan tulisan...</span>
             <div class="progress-bar">
                 <div class="progress-fill" id="progress-fill"></div>
             </div>
@@ -241,7 +326,7 @@
 
         <div class="result-container" id="result-container">
             <div class="result-header">
-                <h3 style="color: var(--jujutsu-blue); margin:0;">Hasil Kalimat:</h3>
+                <h3 style="color: var(--jujutsu-blue); margin:0; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Hasil Kalimat:</h3>
                 <button class="copy-btn" onclick="copyText()">Salin Teks</button>
             </div>
             <textarea id="result-text" readonly></textarea>
@@ -265,41 +350,38 @@
         let ocrWorker = null;
         let isWorkerReady = false;
 
-        // --- 1. INISIALISASI DI LATAR BELAKANG (WARM-UP) ---
+        // Inisialisasi Mesin Otomatis saat Halaman Terbuka
         async function initOCR() {
             try {
                 if (typeof Tesseract === 'undefined') {
-                    systemStatusText.innerText = "Koneksi internet lambat. Gagal memuat script.";
+                    systemStatusText.innerText = "Gagal memuat skrip. Coba periksa jaringan internet Anda.";
                     return;
                 }
                 
-                // Membuat worker presisten sejak halaman dibuka
                 ocrWorker = await Tesseract.createWorker();
                 await ocrWorker.loadLanguage('ind+eng');
                 await ocrWorker.initialize('ind+eng');
                 
                 isWorkerReady = true;
                 statusDot.className = "status-ready";
-                systemStatusText.innerText = "Teknik Kutukan Siap! Sistem siap memindai instan.";
+                systemStatusText.innerText = "Teknik Kutukan Siap! Sistem siap digunakan secara instan.";
                 
-                // Jika user sudah memasukkan gambar sebelum inisialisasi selesai, aktifkan tombolnya
                 if (imageUrl) {
                     processBtn.removeAttribute('disabled');
                     processBtn.innerText = "Ekstrak Teks";
                 }
             } catch (err) {
                 console.error(err);
-                systemStatusText.innerText = "Gagal mematangkan energi kutukan. Coba reload halaman.";
+                systemStatusText.innerText = "Gagal mematangkan energi kutukan. Coba muat ulang halaman.";
             }
         }
 
-        // Jalankan inisialisasi langsung saat halaman dimuat
         window.onload = initOCR;
 
-        // --- 2. PENANGANAN INPUT GAMBAR ---
+        // Tangkap Gambar dari Upload maupun Paste
         function handleFile(file) {
             if (file && file.type.startsWith('image/')) {
-                if(imageUrl) URL.revokeObjectURL(imageUrl); // Hapus cache memori lama
+                if(imageUrl) URL.revokeObjectURL(imageUrl);
                 imageUrl = URL.createObjectURL(file);
                 
                 imagePreview.src = imageUrl;
@@ -333,22 +415,19 @@
             }
         });
 
-        // --- 3. PROSES MEMINDAI (JAUH LEBIH CEPAT) ---
+        // Proses Pemindaian OCR Super Cepat
         async function processImage() {
             if (!imageUrl || !isWorkerReady) return;
 
             statusContainer.style.display = 'block';
             resultContainer.style.display = 'none';
             processBtn.disabled = true;
-            statusText.innerText = "Membuka Ekspansi Domain... (0%)";
-            progressFill.style.width = "0%";
 
             try {
-                // Set logger dinamis untuk memantau progress
                 ocrWorker.logger = (m) => {
                     if (m.status === 'recognizing text') {
                         const progress = Math.round(m.progress * 100);
-                        statusText.innerText = `Ekstraksi Energi Terkutuk... (${progress}%)`;
+                        statusText.innerText = `Menguraikan Struktur Dimensi... (${progress}%)`;
                         progressFill.style.width = `${progress}%`;
                     }
                 };
@@ -357,14 +436,14 @@
                 
                 statusContainer.style.display = 'none';
                 processBtn.disabled = false;
-                resultText.value = text.trim() || "(Tidak ada tulisan terdeteksi)";
+                resultText.value = text.trim() || "(Tidak ada tulisan terdeteksi di dalam gambar)";
                 resultContainer.style.display = 'block';
 
             } catch (error) {
                 console.error(error);
                 statusContainer.style.display = 'none';
                 processBtn.disabled = false;
-                alert("Gagal membaca gambar.");
+                alert("Gagal membaca struktur teks pada gambar.");
             }
         }
 
