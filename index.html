@@ -10,8 +10,10 @@
         :root {
             --jujutsu-red: #ff3333;
             --jujutsu-blue: #00f3ff;
-            --glass-bg: rgba(10, 15, 30, 0.85); /* Dipertegas agar teks kontras */
-            --glass-border: rgba(255, 255, 255, 0.08);
+            /* SEBELUMNYA: rgba(10, 15, 30, 0.85) -> Pekat */
+            /* SEKARANG: Diubah ke 0.35 agar jauh lebih transparan & background tembus pandang */
+            --glass-bg: rgba(10, 15, 30, 0.35); 
+            --glass-border: rgba(255, 255, 255, 0.15); /* Sedikit dipertegas pinggirannya agar tetap estetik */
         }
 
         body {
