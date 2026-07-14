@@ -7,44 +7,37 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
     <style>
         :root { --jujutsu-red: #ff3333; --jujutsu-blue: #00f3ff; --glass-bg: rgba(7, 10, 20, 0.9); --glass-border: rgba(255, 51, 51, 0.25); }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; color: #f3f4f6; background-color: #02040a; }
-        .video-bg { position: fixed; top: 50%; left: 50%; width: 100%; height: 100%; z-index: -1; transform: translate(-50%, -50%); object-fit: cover; pointer-events: none; filter: grayscale(20%) contrast(110%); }
-        .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(180deg, rgba(2, 4, 10, 0.4) 0%, rgba(2, 4, 10, 0.7) 100%); }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; color: #f3f4f6; background-color: #02040a; }
+        .video-bg { position: fixed; top: 50%; left: 50%; width: 100%; height: 100%; z-index: -1; transform: translate(-50%, -50%); object-fit: fill; filter: grayscale(20%) contrast(110%); }
         .container { max-width: 650px; width: 100%; background: var(--glass-bg); border: 2px solid var(--glass-border); border-radius: 24px; padding: 40px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.95); }
         h1 { font-family: 'Impact', sans-serif; font-size: 3.5rem; color: #fff; text-align: center; margin: 0; background: linear-gradient(135deg, #fff 30%, var(--jujutsu-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .kanji-sub { text-align: center; font-size: 2.2rem; font-weight: 900; color: var(--jujutsu-red); margin-bottom: 20px; font-family: serif; }
-        .upload-area { border: 2px dashed var(--jujutsu-red); padding: 40px; text-align: center; cursor: pointer; border-radius: 16px; background: rgba(0,0,0,0.5); }
-        button { background: var(--jujutsu-red); color: #fff; border: none; padding: 15px 30px; border-radius: 12px; cursor: pointer; font-weight: bold; margin-top: 20px; width: 100%; }
+        .upload-area { border: 2px dashed rgba(255,51,51,0.25); padding: 40px; text-align: center; cursor: pointer; border-radius: 16px; background: rgba(0,0,0,0.5); margin-bottom: 20px; }
+        #image-preview { max-width: 100%; display: none; margin-top: 20px; border-radius: 10px; }
+        button { background: var(--jujutsu-red); color: #fff; border: none; padding: 15px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: bold; text-transform: uppercase; }
         button:disabled { background: #444; }
-        textarea { width: 100%; height: 150px; background: #000; color: #0f0; border: 1px solid #333; padding: 10px; margin-top: 20px; border-radius: 8px; box-sizing: border-box; }
-        #preview-container { margin-top: 20px; text-align: center; display: none; }
-        #image-preview { max-width: 100%; border-radius: 10px; }
+        textarea { width: 100%; height: 150px; background: #000; color: #fff; border: 1px solid #333; padding: 15px; margin-top: 20px; border-radius: 8px; box-sizing: border-box; }
     </style>
 </head>
 <body>
     <video class="video-bg" autoplay loop muted playsinline><source src="bg.mp4" type="video/mp4"></video>
-    <div class="video-overlay"></div>
-
     <div class="container">
         <h1>JUJUTSU OCR</h1>
         <div class="kanji-sub">呪術廻戦</div>
         <div class="upload-area" onclick="document.getElementById('file-input').click()">
-            <p>Klik/Paste Gambar (Jepang/Inggris)</p>
+            <p>Klik di sini atau <b>Ctrl + V</b> untuk Paste Gambar</p>
         </div>
         <input type="file" id="file-input" accept="image/*" style="display:none">
-        <div id="preview-container"><img id="image-preview" src="#"></div>
-        <button id="process-btn" onclick="processImage()" disabled>Menyiapkan Sistem...</button>
+        <img id="image-preview">
+        <button id="process-btn" onclick="processImage()" disabled>Memuat Model (Jepang/Indo/Inggris)...</button>
         <textarea id="result-text" readonly placeholder="Hasil teks akan muncul di sini..."></textarea>
     </div>
 
-    <canvas id="processing-canvas" style="display:none;"></canvas>
-
     <script>
-        let ocrWorker = null, imageUrl = null;
-        
+        let ocrWorker = null;
         async function initOCR() {
             ocrWorker = await Tesseract.createWorker();
-            // Menambahkan bahasa Jepang (jpn) agar logo terbaca
+            // PENTING: Memuat bahasa Jepang agar teks SAO terbaca
             await ocrWorker.loadLanguage('jpn+ind+eng');
             await ocrWorker.initialize('jpn+ind+eng');
             document.getElementById('process-btn').innerText = "Ekstrak Teks";
@@ -52,30 +45,25 @@
         }
         window.onload = initOCR;
 
+        // Penanganan File (Klik/Paste)
         function handleFile(file) {
-            imageUrl = URL.createObjectURL(file);
-            document.getElementById('image-preview').src = imageUrl;
-            document.getElementById('preview-container').style.display = 'block';
+            const preview = document.getElementById('image-preview');
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
         }
-
         document.getElementById('file-input').onchange = (e) => handleFile(e.target.files[0]);
         window.onpaste = (e) => {
-            const file = e.clipboardData.items[0].getAsFile();
+            const file = e.clipboardData.items[0]?.getAsFile();
             if(file) handleFile(file);
         };
 
         async function processImage() {
             const img = document.getElementById('image-preview');
-            const canvas = document.getElementById('processing-canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
-            ctx.drawImage(img, 0, 0);
-
-            // PSM 7: Penting untuk membaca logo satu baris agar tidak berantakan
-            const { data: { text } } = await ocrWorker.recognize(canvas.toDataURL(), {
+            // PSM 7: Paksa OCR membaca sebagai 1 baris teks tunggal (Mengatasi masalah "berantakan")
+            const { data: { text } } = await ocrWorker.recognize(img, {
                 tessedit_pageseg_mode: '7'
             });
-            document.getElementById('result-text').value = text;
+            document.getElementById('result-text').value = text.trim();
         }
     </script>
 </body>
