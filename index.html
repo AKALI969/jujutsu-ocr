@@ -32,6 +32,7 @@
         /* PERBAIKAN: Menggunakan gambar latar belakang baru yang stabil & atmosferik */
 /* Cari bagian .bg-overlay di dalam tag <style> Anda dan ganti menjadi seperti ini */
 /* Kode Background GIF yang Sudah Dicerahkan & Kecepatan Normal */
+/* Versi Super Cerah - Warna Asli GIF 100% */
         .bg-overlay {
             position: fixed;
             top: 0;
@@ -39,18 +40,16 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-image: 
-                /* Efek gelap dikurangi dari 0.75 menjadi 0.40 agar jauh lebih cerah */
-                linear-gradient(180deg, rgba(2, 4, 10, 0.40) 0%, rgba(2, 4, 10, 0.65) 100%),
-                url('bg.gif'); 
+            
+            /* Menggunakan gambar asli tanpa lapisan hitam di atasnya */
+            background-image: url('bg.gif'); 
+            
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             
-            /* Blur dikurangi sedikit agar gambar GIF lebih tajam */
-            filter: blur(1px); 
-            
-            /* Animasi geser kamera lambat dihapus agar gerakan asli GIF Anda tidak melambat */
+            /* Efek blur dihapus total agar GIF Anda tajam sempurna */
+            filter: none; 
         }
 
         /* Struktur Gerakan Kamera Lambat */
