@@ -30,18 +30,22 @@
         }
 
         /* Video Background */
+/* Perbaikan Latar Belakang Video: Mengunci Proporsi Agar Tidak Otomatis Ngezoom */
         .video-bg {
             position: fixed;
             top: 50%;
             left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
+            width: 100%;
+            height: 100%;
             z-index: -1;
-            transform: translateX(-50%) translateY(-50%);
-            object-fit: cover;
-            background-size: cover;
+            transform: translate(-50%, -50%);
+            
+            /* GANTI KODE INI: */
+            /* object-fit: cover; */
+            
+            /* MENJADI KODE INI (Memaksa video pas dengan rasio layar tanpa distorsi/zoom berlebih): */
+            object-fit: fill; 
+            
             pointer-events: none;
             filter: none !important; 
             -webkit-filter: none !important;
