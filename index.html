@@ -13,109 +13,589 @@
             --glass-border: rgba(255, 51, 51, 0.25); 
         }
 
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; color: #f3f4f6; background-color: #02040a; overflow-x: hidden; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #f3f4f6;
+            overflow-x: hidden;
+            position: relative;
+            background-color: #02040a;
+        }
 
-        /* Latar Belakang */
-        .video-bg { position: fixed; top: 50%; left: 50%; width: 100%; height: 100%; z-index: -1; transform: translate(-50%, -50%); object-fit: cover; pointer-events: none; filter: grayscale(20%); }
-        .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: rgba(2, 4, 10, 0.7); }
+        /* Latar Belakang Video */
+        .video-bg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            object-fit: fill; 
+            pointer-events: none;
+            filter: grayscale(20%) contrast(110%); 
+            -webkit-filter: grayscale(20%) contrast(110%);
+        }
 
-        .container { max-width: 650px; width: 100%; background: var(--glass-bg); border: 2px solid var(--glass-border); border-radius: 24px; padding: 40px; box-shadow: 0 30px 60px rgba(0,0,0,0.9); }
-        h1 { font-family: 'Impact', sans-serif; font-size: 3rem; text-align: center; color: #fff; text-transform: uppercase; margin: 0; }
-        .kanji-sub { text-align: center; font-size: 2rem; color: var(--jujutsu-red); margin-bottom: 20px; }
-        
-        .upload-area { border: 2px dashed var(--glass-border); padding: 40px; text-align: center; cursor: pointer; border-radius: 16px; margin-bottom: 20px; transition: 0.3s; }
-        .upload-area:hover { background: rgba(255,51,51,0.05); }
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(180deg, rgba(2, 4, 10, 0.4) 0%, rgba(2, 4, 10, 0.7) 100%);
+            pointer-events: none;
+        }
+
+        /* Tombol Kontrol Audio Musik */
+        .audio-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(10, 15, 30, 0.8);
+            border: 1px solid var(--jujutsu-red);
+            color: var(--jujutsu-red);
+            padding: 10px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .audio-control:hover {
+            background: var(--jujutsu-red);
+            color: #000;
+            box-shadow: 0 0 25px rgba(255, 51, 51, 0.7);
+            transform: scale(1.05);
+        }
+
+        /* Pendaran Energi Terkutuk Dinamis (Horor Gelap) */
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 51, 51, 0.12) 0%, transparent 70%);
+            top: -10%;
+            right: -10%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .bg-glow-2 {
+            position: fixed;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.08) 0%, transparent 70%);
+            bottom: -15%;
+            left: -10%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Kotak Utama Transparan Aura Horor */
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.95), 
+                        0 0 40px rgba(255, 51, 51, 0.15); 
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Judul Bergaya Horor & Berkelip Gaib */
+        h1 {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 3.5rem;
+            color: #ffffff;
+            text-align: center;
+            margin: 0;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fff 30%, var(--jujutsu-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: cursedPulseBlue 4s infinite alternate, ghostGlitch 6s infinite;
+        }
+
+        /* Tulisan Kanji: Berkelip Merah Mistis */
+        .kanji-sub {
+            display: block;
+            text-align: center;
+            width: 100%;
+            font-size: 2.2rem; 
+            font-weight: 900;
+            letter-spacing: 16px; 
+            text-indent: 16px; 
+            color: var(--jujutsu-red);
+            margin-top: 5px;
+            margin-bottom: 15px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            animation: cursedPulseRed 3s infinite alternate;
+        }
+
+        /* ANIMASI BARU NUANSA HOROR */
+        @keyframes cursedPulseBlue {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(0,243,255,0.2));
+                opacity: 0.85;
+            }
+            50% {
+                filter: drop-shadow(0 0 25px rgba(0,243,255,0.7));
+                opacity: 1;
+            }
+            100% {
+                filter: drop-shadow(0 0 10px rgba(0,243,255,0.3));
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes cursedPulseRed {
+            0% {
+                text-shadow: 0 0 4px rgba(255, 51, 51, 0.3);
+                opacity: 0.7;
+            }
+            50% {
+                text-shadow: 0 0 25px rgba(255, 51, 51, 0.9);
+                opacity: 1;
+            }
+            100% {
+                text-shadow: 0 0 8px rgba(255, 51, 51, 0.4);
+                opacity: 0.8;
+            }
+        }
+
+        /* Efek Kerusakan Distorsi Gaib Sesekali */
+        @keyframes ghostGlitch {
+            0%, 92%, 100% { transform: skew(0deg); filter: hue-rotate(0deg); }
+            93% { transform: skew(3deg); filter: hue-rotate(90deg); }
+            94% { transform: skew(-2deg); }
+            95% { transform: skew(0deg); }
+            96% { transform: skew(-4deg); filter: hue-rotate(-90deg); }
+            97% { transform: skew(2deg); }
+            98% { transform: skew(0deg); }
+        }
+
+        p.subtitle {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-top: 8px;
+            margin-bottom: 35px;
+            font-weight: 600;
+            text-shadow: 0 0 8px rgba(0,0,0,0.5);
+        }
+
+        .system-status {
+            text-align: center;
+            font-size: 0.8rem;
+            background: rgba(255, 51, 51, 0.03);
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 51, 51, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .status-ready { color: #00ffaa; text-shadow: 0 0 10px rgba(0,255,170,0.6); }
+        .status-loading { color: #ff3333; text-shadow: 0 0 8px rgba(255,51,51,0.5); }
+
+        .upload-area {
+            border: 2px dashed rgba(255, 51, 51, 0.25);
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            padding: 50px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        .upload-area:hover {
+            border-color: var(--jujutsu-blue);
+            background: rgba(0, 243, 255, 0.03);
+            transform: scale(1.02);
+        }
+
+        .upload-area p {
+            margin: 0;
+            font-size: 1rem;
+            color: #9ca3af;
+        }
+
+        .upload-area b { color: var(--jujutsu-red); }
         #file-input { display: none; }
 
-        button { background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%); color: #000; padding: 15px 40px; font-weight: 800; border-radius: 12px; border: none; cursor: pointer; text-transform: uppercase; }
-        button:disabled { background: #444; color: #888; }
+        #preview-container {
+            margin-top: 30px;
+            display: none;
+            text-align: center;
+        }
 
-        textarea { width: 100%; height: 160px; background: rgba(0,0,0,0.6); color: #fff; border: 1px solid var(--glass-border); padding: 15px; margin-top: 20px; border-radius: 12px; box-sizing: border-box; }
-        .status-msg { text-align: center; color: #00f3ff; margin-bottom: 20px; font-weight: bold; }
+        #image-preview {
+            max-width: 100%;
+            max-height: 280px;
+            border-radius: 14px;
+            border: 2px solid rgba(255, 51, 51, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.9);
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+            color: #060814;
+            border: none;
+            padding: 15px 45px;
+            font-size: 1rem;
+            font-weight: 800;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        button:hover:not(:disabled) {
+            background: linear-gradient(135deg, var(--jujutsu-red) 0%, #b30000 100%);
+            color: #fff;
+            box-shadow: 0 0 30px rgba(255, 51, 51, 0.6);
+            transform: translateY(-3px);
+        }
+
+        button:disabled {
+            background: rgba(255,255,255,0.05);
+            color: #4b5563;
+            cursor: not-allowed;
+        }
+
+        .status-container {
+            margin-top: 25px;
+            display: none;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(0,0,0,0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--jujutsu-red), var(--jujutsu-blue));
+            box-shadow: 0 0 20px var(--jujutsu-red);
+            transition: width 0.3s ease;
+        }
+
+        .result-container {
+            margin-top: 35px;
+            display: none;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .copy-btn {
+            background: rgba(255, 51, 51, 0.1);
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            color: var(--jujutsu-red);
+            padding: 8px 18px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+
+        .copy-btn:hover {
+            background: var(--jujutsu-red);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255,51,51,0.4);
+        }
+
+        textarea {
+            width: 100%;
+            height: 160px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 51, 51, 0.15);
+            border-radius: 12px;
+            padding: 18px;
+            color: #fff;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: vertical;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
 
-    <video class="video-bg" autoplay loop muted playsinline><source src="bg.mp4" type="video/mp4"></video>
+    <button class="audio-control" id="audio-toggle" onclick="toggleAudio()">
+        🎵 AUDIO: OFF
+    </button>
+
+    <audio id="bg-music" loop>
+        <source src="bg.mp3" type="audio/mp3">
+    </audio>
+
+    <video class="video-bg" autoplay loop muted playsinline preload="auto">
+        <source src="bg.mp4" type="video/mp4">
+    </video>
     <div class="video-overlay"></div>
+    
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
 
     <div class="container">
         <h1>JUJUTSU OCR</h1>
         <div class="kanji-sub">呪術廻戦</div>
-        
-        <div id="system-status" class="status-msg">Menyiapkan segel kutukan...</div>
+        <p class="subtitle">Ekstraksi Teks Energi Terkutuk</p>
 
-        <div class="upload-area" onclick="document.getElementById('file-input').click()">
-            <p>Klik atau tekan Ctrl + V untuk Paste Gambar</p>
+        <div class="system-status" id="system-status">
+            <span class="status-loading" id="status-dot">●</span> 
+            <span id="system-status-text">Menyiapkan segel kutukan di latar belakang...</span>
+        </div>
+
+        <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
+            <p>📁 Klik di sini atau langsung tekan <b>Ctrl + V</b> untuk Paste Gambar</p>
         </div>
         <input type="file" id="file-input" accept="image/*">
 
-        <div style="text-align: center;">
-            <button id="process-btn" disabled>Inisialisasi...</button>
+        <div id="preview-container">
+            <img id="image-preview" src="#" alt="Pratinjau">
         </div>
 
-        <textarea id="result-text" readonly placeholder="Hasil teks muncul di sini..."></textarea>
+        <div class="btn-container">
+            <button id="process-btn" style="display: none;" onclick="processImage()" disabled>Menginisialisasi...</button>
+        </div>
+
+        <div class="status-container" id="status-container">
+            <span id="status-text" style="font-size: 0.9rem; color: #9ca3af;">Menguraikan tulisan...</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="result-container" id="result-container">
+            <div class="result-header">
+                <h3 style="color: var(--jujutsu-red); margin:0; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Hasil Kalimat:</h3>
+                <button class="copy-btn" onclick="copyText()">Salin Teks</button>
+            </div>
+            <textarea id="result-text" readonly></textarea>
+        </div>
     </div>
 
+    <canvas id="processing-canvas" style="display:none;"></canvas>
+
     <script>
+        const fileInput = document.getElementById('file-input');
+        const previewContainer = document.getElementById('preview-container');
+        const imagePreview = document.getElementById('image-preview');
+        const processBtn = document.getElementById('process-btn');
+        const statusContainer = document.getElementById('status-container');
+        const statusText = document.getElementById('status-text');
+        const progressFill = document.getElementById('progress-fill');
+        const resultContainer = document.getElementById('result-container');
+        const resultText = document.getElementById('result-text');
+        const systemStatusText = document.getElementById('system-status-text');
+        const statusDot = document.getElementById('status-dot');
+        const processingCanvas = document.getElementById('processing-canvas');
+        
+        // Element Audio
+        const bgMusic = document.getElementById('bg-music');
+        const audioToggleBtn = document.getElementById('audio-toggle');
+
+        let imageUrl = null;
         let ocrWorker = null;
-        let selectedImage = null;
+        let isWorkerReady = false;
+
+        // Fungsi Menyalakan / Mematikan Musik
+        function toggleAudio() {
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    audioToggleBtn.innerText = "🎵 AUDIO: ON";
+                    audioToggleBtn.style.borderColor = "#00ffaa";
+                    audioToggleBtn.style.color = "#00ffaa";
+                    audioToggleBtn.style.boxShadow = "0 0 15px rgba(0, 255, 170, 0.3)";
+                }).catch(err => {
+                    console.log("Browser memblokir autoplay otomatis:", err);
+                });
+            } else {
+                bgMusic.pause();
+                audioToggleBtn.innerText = "🎵 AUDIO: OFF";
+                audioToggleBtn.style.borderColor = "var(--jujutsu-red)";
+                audioToggleBtn.style.color = "var(--jujutsu-red)";
+                audioToggleBtn.style.boxShadow = "0 0 15px rgba(255, 51, 51, 0.3)";
+            }
+        }
 
         async function initOCR() {
-            const status = document.getElementById('system-status');
             try {
-                // Konfigurasi Worker dengan 3 bahasa sekaligus
+                if (typeof Tesseract === 'undefined') {
+                    systemStatusText.innerText = "Gagal memuat skrip.";
+                    return;
+                }
+                
+                // Menambahkan jpn ke daftar bahasa
                 ocrWorker = await Tesseract.createWorker();
                 await ocrWorker.loadLanguage('jpn+ind+eng');
                 await ocrWorker.initialize('jpn+ind+eng');
                 
-                status.innerText = "Teknik Kutukan Siap! (Jepang/Indonesia/Inggris)";
-                document.getElementById('process-btn').disabled = false;
-                document.getElementById('process-btn').innerText = "Ekstrak Teks";
+                isWorkerReady = true;
+                statusDot.className = "status-ready";
+                systemStatusText.innerText = "Teknik Kutukan Siap! (Mendukung Jepang/Indonesia/Inggris)";
+                
+                if (imageUrl) {
+                    processBtn.removeAttribute('disabled');
+                    processBtn.innerText = "Ekstrak Teks";
+                }
             } catch (err) {
-                status.innerText = "Gagal memuat model. Periksa internet.";
+                console.error(err);
+                systemStatusText.innerText = "Gagal mematangkan energi kutukan. Coba muat ulang halaman.";
             }
         }
-
-        async function processImage(imageSource) {
-            const btn = document.getElementById('process-btn');
-            const result = document.getElementById('result-text');
-            btn.disabled = true;
-            result.value = "Membaca energi kutukan...";
-
-            try {
-                const { data: { text } } = await ocrWorker.recognize(imageSource);
-                result.value = text.trim();
-            } catch (err) {
-                result.value = "Gagal memproses gambar.";
-            }
-            btn.disabled = false;
-        }
-
-        // File Handler
-        document.getElementById('file-input').addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => { selectedImage = event.target.result; };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        window.addEventListener('paste', (e) => {
-            const item = e.clipboardData.items[0];
-            if (item && item.type.startsWith('image')) {
-                const reader = new FileReader();
-                reader.onload = (event) => { selectedImage = event.target.result; };
-                reader.readAsDataURL(item.getAsFile());
-            }
-        });
-
-        document.getElementById('process-btn').onclick = () => {
-            if (selectedImage) processImage(selectedImage);
-        };
 
         window.onload = initOCR;
+
+        function handleFile(file) {
+            if (file && file.type.startsWith('image/')) {
+                if(imageUrl) URL.revokeObjectURL(imageUrl);
+                imageUrl = URL.createObjectURL(file);
+                
+                imagePreview.src = imageUrl;
+                previewContainer.style.display = 'block';
+                processBtn.style.display = 'inline-block';
+                resultContainer.style.display = 'none';
+                statusContainer.style.display = 'none';
+
+                if (isWorkerReady) {
+                    processBtn.removeAttribute('disabled');
+                    processBtn.innerText = "Ekstrak Teks";
+                } else {
+                    processBtn.setAttribute('disabled', 'true');
+                    processBtn.innerText = "Menyiapkan Sistem...";
+                }
+            }
+        }
+
+        fileInput.addEventListener('change', function(e) {
+            handleFile(e.target.files[0]);
+        });
+
+        window.addEventListener('paste', function(e) {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    const file = items[i].getAsFile();
+                    handleFile(file);
+                    break;
+                }
+            }
+        });
+
+        function preprocessImage(imgElement) {
+            const ctx = processingCanvas.getContext('2d');
+            processingCanvas.width = imgElement.naturalWidth;
+            processingCanvas.height = imgElement.naturalHeight;
+            
+            ctx.drawImage(imgElement, 0, 0);
+            
+            const imageData = ctx.getImageData(0, 0, processingCanvas.width, processingCanvas.height);
+            const data = imageData.data;
+            
+            const threshold = 120; 
+
+            for (let i = 0; i < data.length; i += 4) {
+                const brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
+                const color = brightness > threshold ? 255 : 0;
+                
+                data[i] = color;     
+                data[i + 1] = color; 
+                data[i + 2] = color; 
+            }
+            
+            ctx.putImageData(imageData, 0, 0);
+            return processingCanvas.toDataURL();
+        }
+
+        async function processImage() {
+            if (!imageUrl || !isWorkerReady) return;
+
+            statusContainer.style.display = 'block';
+            resultContainer.style.display = 'none';
+            processBtn.disabled = true;
+
+            try {
+                statusText.innerText = "Mendeteksi tulisan...";
+                const processedImageBase64 = preprocessImage(imagePreview);
+
+                ocrWorker.logger = (m) => {
+                    if (m.status === 'recognizing text') {
+                        const progress = Math.round(m.progress * 100);
+                        statusText.innerText = `Menguraikan Struktur Dimensi... (${progress}%)`;
+                        progressFill.style.width = `${progress}%`;
+                    }
+                };
+
+                const { data: { text } } = await ocrWorker.recognize(processedImageBase64);
+                
+                statusContainer.style.display = 'none';
+                processBtn.disabled = false;
+
+                resultText.value = text.trim() || "(Tidak ada tulisan terdeteksi)";
+                resultContainer.style.display = 'block';
+
+            } catch (error) {
+                console.error(error);
+                statusContainer.style.display = 'none';
+                processBtn.disabled = false;
+                alert("Gagal membaca struktur teks pada gambar.");
+            }
+        }
+
+        function copyText() {
+            resultText.select();
+            navigator.clipboard.writeText(resultText.value);
+            const btn = document.querySelector('.copy-btn');
+            btn.innerText = 'Tersalin!';
+            setTimeout(() => btn.innerText = 'Salin Teks', 2000);
+        }
     </script>
 </body>
 </html>
